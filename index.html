@@ -8,41 +8,75 @@
     
     <!-- Don't use this in production: -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+<!--    bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+
+<!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   </head>
   <body>
     <div id="root"></div>
     <script type="text/babel">
-        function HelloWord(props){
-            return (
-                <div>
-                    <h1>Hi {props.name}</h1>
-                    <MyAgeClass age={props.age} adult={props.adult} location = {props.location} />
-                </div>
-            );
-        }
-//        function MyAge(props){
-//            return (
-//                <div>
-//                    <h2>Age: {props.age} Adult? : {props.adult}</h2>
-//                </div>
-//            );
-//        }
-        class MyAgeClass extends React.Component {
+
+        class HotNews extends React.Component{
+            constructor(props) {
+                super(props);
+                this.state = {
+                    totalEditCount: 0,
+                    totalDeleteCount: 0
+                };
+            }
+            
+            edit() {
+                alert("edit button clicked");
+                this.setState({
+                    totalEditCount: this.state.totalEditCount + 1
+                });
+            }
+            
+            
+            delete() {
+                alert("delete button clicked");
+                this.setState({
+                   totalDeleteCount: this.state.totalDeleteCount + 1 
+                });
+            }
+            
+            
+            
             render() {
-                var props = this.props;
+                const props = this.props;
+                const totalEditCount = this.state.totalEditCount;
+                const totalDeleteCount = this.state.totalDeleteCount;
                 return(
-                    <h2>My age: {props.age}.
-                        Adult? : {props.adult}. Location: {props.location}
-                    </h2>
+                   <div className="container">
+                       <h1>{props.children}</h1>
+                       <div className="action">
+                           <button type="button" className="btn btn-primary edit" onClick={()=>this.edit()}>Edit</button>
+                           
+                           <button type="button" className="btn btn-danger delete" onClick={()=>this.delete()}>Delete</button>
+                       </div>
+                       {!!totalEditCount && (<p>Total edit clicked {totalEditCount}</p>)}
+                        {!!totalDeleteCount && (<p>Total delete clicked {totalDeleteCount}</p>)}
+                   </div> 
                 )
             }
         }
 
       ReactDOM.render(
         <div>
-            <HelloWord name="Mokaddes" age="25" adult="Yes" location = "Dhaka" />
-            
-            <HelloWord name="MKDS" age="17" adult="No" location = "Rangpur" />
+            <HotNews>Mustafiz plays today in IPL</HotNews>
+            <HotNews>Mokaddes is a good boy</HotNews>
+        
+
         </div>,
         document.getElementById('root')
       );
